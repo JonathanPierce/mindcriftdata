@@ -1,0 +1,24 @@
+{
+  "name": "mindcrift",
+  "version": "1.0.0",
+  "description": "Server for minecraft VR project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JonathanPierce/mindcriftdata.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JonathanPierce/mindcriftdata/issues"
+  },
+  "homepage": "https://github.com/JonathanPierce/mindcriftdata",
+  "dependencies": {
+    "mongodb": "^2.0.47",
+    "socket.io": "^1.3.7"
+  }
+}
