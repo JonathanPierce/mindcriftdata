@@ -34,7 +34,7 @@ var get_mime = function (path) {
 var get_file = function (path, callback) {
     fs.readFile(__dirname + "/" + path, function (err, data) {
         if (err) {
-            error_log(err);
+            console.log(error);
             callback(null);
             return;
         }
@@ -57,8 +57,14 @@ mongodb.connect("mongodb://localhost:27017/mindcrift", function (error, database
     // Populate the database object
     db_master = database;
     db = db_master.collection("entries");
-    console.log("Datebase conenction established successfully.")
+    console.log("Database connection established successfully.");
 });
+
+// Handle the socket.io stuff
+var socketServer = http.createServer();
+var io = socket(socketServer);
+socketServer.listen(3000);
+console.log("Socket.IO server running on port 3000.")
 
 // Responders for requests at a given path.
 var responders = {
@@ -66,6 +72,11 @@ var responders = {
     "/file": function (req, res) {
         var parsed_url = url.parse(req.url, true);
         var file_path = parsed_url.query.path;
+
+        // Some basic security
+        if(file_path.indexOf("..") >= 0) {
+            return responders["404"](req,res);
+        }
 
         if (file_path) {
             // Set the correct file type
@@ -115,7 +126,8 @@ var responders = {
                         console.log(error);
                         responders["404"](req, res);
                     } else {
-                        // TODO: Handle the socket
+                        // Handle the socket
+                        io.sockets.emit("newData", entity);
 
                         // Success
                         res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -126,7 +138,7 @@ var responders = {
                 // 404
                 responders["404"](req, res);
             }
-        })
+        });
     },
 
     "/experiment": function(req, res) {
@@ -193,3 +205,5 @@ http.createServer(function (req, res) {
     // Return a 404 if no responder was found
     responders["404"](req, res);
 }).listen(1337);
+
+console.log("Navigate to http://localhost:1337 to view the application.");

@@ -1,0 +1,8 @@
+[
+    {
+        "name": "ProbMatch",
+        "longName": "Probability Matching",
+        "description": "This is an example description of an experiment. It shouldn't be horribly long.",
+        "script": "probmatch.js"
+    }
+]
