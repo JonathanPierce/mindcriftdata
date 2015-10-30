@@ -110,6 +110,11 @@ var responders = {
     "/save": function(req, res) {
         var body = "";
 
+        if(req.method !== "POST") {
+            console.log(req.method + "is not POST.");
+            return responders["404"](req,res);
+        }
+
         req.on("data", function(chunk) {
             body += chunk.toString();
         });
@@ -136,6 +141,7 @@ var responders = {
                 });
             } catch(ex) {
                 // 404
+                console.log(ex);
                 responders["404"](req, res);
             }
         });

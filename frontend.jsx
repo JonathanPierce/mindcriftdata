@@ -74,7 +74,7 @@ var Processors = (function() {
                         console.log("Processing script loaded for " + entry.name + ".");
 
                         // Should we flush?
-                        if(receivedCount == expectedCount) {
+                        if(receivedCount === expectedCount) {
                             console.log("All done!");
                             flush();
                         }
@@ -87,6 +87,39 @@ var Processors = (function() {
             });
         }).fail(function() {
             console.log("Failed to get config. :(");
+        });
+
+        // Start the socketIO server
+        var socket = io("http://localhost:3000");
+        socket.on("newData", function(data) {
+            // Find or create correct entry
+            var experiment = state.experiments[data.experiment];
+            if(experiment) {
+                // Update the DB
+                var found = null;
+                for(var i = 0; i < experiment.length; i++) {
+                    var current = experiment[i];
+
+                    if(current.subject === data.subject) {
+                        found = current;
+                    }
+                }
+
+                // Create a new subject if not found
+                if(!found) {
+                    found = {
+                        subject: data.subject,
+                        data: []
+                    };
+                    experiment.push(found);
+                }
+
+                // Add the new entry
+                found.data.push(data);
+
+                // Flush to UI
+                flush();
+            }
         });
     };
 
@@ -111,8 +144,75 @@ var Processors = (function() {
     };
 })();
 
-// Test code
-Processors.start(function(data) {
-    console.log("Received flushed data!");
-    console.log(data);
-});
+/*
+    TEST CODE
+*/
+var Tester = (function() {
+    // Starts the machine running...
+    var start = function() {
+        Processors.start(function(data) {
+            console.log("Received flushed data!");
+            console.log(data);
+        });
+    };
+
+    // Simulates a ProbMatch experiment
+    var simulate = function() {
+        var subject = Math.floor(100000000 * Math.random());
+
+        // start
+        $.post("/save", JSON.stringify({
+            experiment: "ProbMatch",
+            subject: subject,
+            event: "Start",
+            args: null
+        }), function() {
+            console.log("Started subject " + subject + ".");
+
+            // 25-50 left/right events
+            var count = 0;
+            var maxCount = 25 + Math.floor(25 * Math.random());
+
+            var leftRight = function() {
+                setTimeout(function() {
+                    $.post("/save", JSON.stringify({
+                        experiment: "ProbMatch",
+                        subject: subject,
+                        event: "BlockBroken",
+                        args: {
+                            left: Math.random() > 0.5
+                        }
+                    }), function() {
+                        count += 1;
+
+                        if(count >= maxCount) {
+                            end();
+                        } else {
+                            leftRight();
+                        }
+                    }).fail(function() {});
+                }, 4000 * Math.random());
+            };
+
+            var end = function() {
+                $.post("/save", JSON.stringify({
+                    experiment: "ProbMatch",
+                    subject: subject,
+                    event: "End",
+                    args: null
+                }), function() {
+                    console.log("Finished subject " + subject + ".");
+                }).fail(function() {});
+            };
+
+            // Start it up
+            leftRight();
+        }).fail(function() {});
+    };
+
+    // Return out an interface
+    return {
+        start: start,
+        simulate: simulate
+    };
+})();
