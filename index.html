@@ -17,7 +17,12 @@
 </head>
 
 <body>
-    Hello World!
+    <div id="reactHost"></div>
+    <script>
+        window.onload = function() {
+            ReactDOM.render(React.createElement(Application), document.getElementById("reactHost"));
+        }
+    </script>
 </body>
 
 </html>

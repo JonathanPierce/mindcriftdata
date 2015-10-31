@@ -123,6 +123,7 @@ var responders = {
             try {
                 // JSON parse the request
                 var entity = JSON.parse(body);
+                entity.time = Date.now();
 
                 // Save into the DB
                 db.insertOne(entity, function(error, result) {

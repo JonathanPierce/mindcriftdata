@@ -1,4 +1,128 @@
-body {
+* {
+    box-sizing: border-box;
+}
+
+body, html {
     width: 100%;
     height: 100%;
+    margin: 0px;
+    padding: 0px;
+    font-family: sans-serif;
+    background-color: rgb(220,220,200);
+}
+
+.header {
+    background-color: #201606;
+    border-bottom: 2px solid #109010;
+    padding-left: 12px;
+}
+
+.page {
+    padding: 12px;
+}
+
+.header h1 {
+    font-size: 36pt;
+    margin: 0px;
+    padding: 0px;
+    color: #109010;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.mainSection {
+    background: rgba(255,255,255,0.5);
+    border: 2px solid #109010;
+    width: 100%;
+    max-width: 1024px;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mainSection td {
+    border: 1px solid #109010;
+}
+
+.mainSection .tableHeader td {
+    background-color: #201606;
+    color: #109010;
+    border-bottom: 2px solid #109010;
+    padding: 4px;
+    font-size: 14pt;
+}
+
+.mainSection td h3 {
+    margin: 4px;
+    padding: 0px;
+    font-size: 12pt;
+}
+
+.mainSection td .description {
+    margin: 4px;
+    font-size: 10pt;
+}
+
+.mainSection .particCount {
+    font-size: 12pt;
+    vertical-align: bottom;
+    padding: 4px;
+}
+
+.mainSection .experimentListing:hover {
+    background-color: white;
+    cursor: pointer;
+}
+
+.experimentTitle h2 {
+    margin: 0px;
+    padding: 0px;
+    padding-top: 8px;
+    font-size: 22pt;
+    color: #019010;
+}
+
+.experimentTitle div {
+    font-size: 10pt;
+    margin-bottom: 12px;
+}
+
+.globalStats table {
+    background: rgba(255,255,255,0.5);
+    border: 2px solid #109010;
+    width: 100%;
+    max-width: 1024px;
+}
+
+.globalStats button {
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+.pairTable td {
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 12pt;
+    border-bottom: 1px solid #109010;
+}
+
+.pairTable td.left {
+    font-weight: bold;
+    width: 40%;
+}
+
+.instanceStats {
+    margin: 8px;
+    background: white;
+    width: calc(100% - 16px);
+}
+
+.instanceSelector {
+    padding: 4px;
 }
