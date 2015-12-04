@@ -255,7 +255,7 @@ var Application = React.createClass({
         return (
             <div>
                 <div className="header">
-                    <h1>Mindcrift Data</h1>
+                    <h1>Mindcraft Data</h1>
                 </div>
                 <div className="page">
                     { page }

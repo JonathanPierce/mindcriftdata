@@ -47,7 +47,7 @@ var get_file = function (path, callback) {
 // Connect to the database upon launch.
 var db_master = null;
 var db = null;
-mongodb.connect("mongodb://localhost:27017/mindcrift", function (error, database) {
+mongodb.connect("mongodb://localhost:27017/mindcraft", function (error, database) {
     if (error) {
         console.log("Remember to start the database!");
         console.log("mongod --dbpath C:\Users\Jonathan\MongoDB");
