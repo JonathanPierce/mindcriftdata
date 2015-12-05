@@ -177,7 +177,7 @@ var Tester = (function() {
                     $.post("/save", JSON.stringify({
                         experiment: "ProbMatch",
                         subject: subject,
-                        event: "BlockBroken",
+                        event: "ButtonPress",
                         args: {
                             left: Math.random() > 0.5
                         }
